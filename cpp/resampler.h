@@ -74,14 +74,11 @@ class Resampler {
 
 public:
     Resampler() = delete;
-    Resampler(double minFactor, double maxFactor)
+    Resampler(double minFactor, double maxFactor) : _minFactor(minFactor), _maxFactor(maxFactor)
     {
         /* Just exit if we get invalid factors */
-        if (minFactor <= 0.0 || maxFactor <= 0.0 || maxFactor < minFactor)
+        if (_minFactor <= 0.0 || _maxFactor <= 0.0 || _maxFactor < _minFactor)
             throw std::invalid_argument("Factors out of range");
-
-        _minFactor = minFactor;
-        _maxFactor = maxFactor;
 
         _LpScl = 1.0;
 
@@ -123,8 +120,8 @@ public:
         _ImpD[_NWING - 1] = - _Imp[_NWING - 1];
 
         /* Calc reach of LP filter wing (plus some creeping room) */
-        size_t Xoff_min = 18.0 * std::max(1.0, 1.0 / minFactor) + 10.0;
-        size_t Xoff_max = 18.0 * std::max(1.0, 1.0 / maxFactor) + 10.0;
+        size_t Xoff_min = 18.0 * std::max(1.0, 1.0 / _minFactor) + 10.0;
+        size_t Xoff_max = 18.0 * std::max(1.0, 1.0 / _maxFactor) + 10.0;
         _Xoff = std::max(Xoff_min, Xoff_max);
 
         /* Make the inBuffer size at least 4096, but larger if necessary
