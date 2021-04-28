@@ -42,7 +42,7 @@ int main() {
             return 0;
 
         size_t inbufused;
-        size_t out = resample.process(factor, inbuffer, in / sizeof(short), &inbufused, outbuffer, sizeof(outbuffer) / sizeof(short));
+        size_t out = resample.process(factor, inbuffer, in / sizeof(short), inbufused, outbuffer, sizeof(outbuffer) / sizeof(short));
 
         fprintf( stderr, "yielded: %zd, used: %zd\n", out, inbufused);
 
